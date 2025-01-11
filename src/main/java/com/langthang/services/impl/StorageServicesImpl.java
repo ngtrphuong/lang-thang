@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.langthang.exception.HttpError;
 import com.langthang.services.IStorageServices;
+import io.github.pixee.security.Filenames;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
@@ -59,7 +60,7 @@ public class StorageServicesImpl implements IStorageServices {
             throw new HttpError("File name is null", HttpStatus.BAD_REQUEST);
 
         try {
-            File convertedFile = new File(multipartFile.getOriginalFilename());
+            File convertedFile = new File(Filenames.toSimpleFileName(multipartFile.getOriginalFilename()));
             multipartFile.transferTo(convertedFile);
             return convertedFile;
         } catch (IOException ex) {
